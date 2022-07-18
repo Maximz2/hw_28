@@ -18,7 +18,7 @@ class User(models.Model):
     ROLES = [
         ("member", "Пользователь"),
         ("moderator", "Mодератор"),
-        ("admin", "AдмиH"),
+        ("admin", "Aдмин"),
     ]
 
     first_name = models.CharField(max_length=50)
