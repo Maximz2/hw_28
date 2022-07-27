@@ -97,7 +97,7 @@ class AdView(ListView):
     models = Ad
     queryset = Ad.objects.all()
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__()
         self.object_list = None
 
@@ -114,7 +114,7 @@ class AdView(ListView):
             ads.append({
                 "id": ad.id,
                 "name": ad.name,
-                "author_id": ad.author_id,
+                # "author_id": ad.author_id,
                 "author": ad.author.first_name,
                 "price": ad.price,
                 "description": ad.description,
@@ -141,7 +141,7 @@ class AdDetailView(DetailView):
         return JsonResponse({
             "id": ad.id,
             "name": ad.name,
-            "author_id": ad.author_id,
+            # "author_id": ad.author_id,
             "author": ad.author.first_name,
             "price": ad.price,
             "description": ad.description,
