@@ -33,7 +33,7 @@ class UserView(ListView):
                 "user_name": user.user_name,
                 "role": user.role,
                 "age": user.age,
-                "location": list(map(str, user.locations.all())),
+                "locations": list(map(str, user.location.all())),
                 "total_ads": len(self.object_list),
             })
 
@@ -58,14 +58,14 @@ class UserDetailView(DetailView):
              "user_name": user.user_name,
              "role": user.role,
              "age": user.age,
-             "location": List(map(str, user.Locations.all()))
+             "locations": List(map(str, user.Location.all()))
         })
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UserCreateView(CreateView):
     model = User
-    fields = ["user_name", "password", "first_name", "last_name", "role", "age", "location"]
+    fields = ["user_name", "password", "first_name", "last_name", "role", "age", "locations"]
 
     def post(self, request, *args, **kwargs):
         user_data = json.loads(request.body)
@@ -79,7 +79,7 @@ class UserCreateView(CreateView):
              age=user_data["age"],
         )
 
-        for location_name in user_data["locations"]:
+        for location_name in user_data["location"]:
             location, _ = Location.objects.get_or_create(name=location_name)
             user.locations.add(location)
 
@@ -90,14 +90,14 @@ class UserCreateView(CreateView):
              "user_name": user.user_name,
              "role": user.role,
              "age": user.age,
-             "locations": list(map(str, user.Locations.all())),
+             "locations": list(map(str, user.locations.all())),
         })
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UserUpdateView(UpdateView):
     model = User
-    fields = ["user_name", "password", "first_name", "last_name", "role", "age", "location"]
+    fields = ["user_name", "password", "first_name", "last_name", "role", "age", "locations"]
 
     def patch(self, request, *args, **kwargs):
         super().post(request, *args, **kwargs)
@@ -109,9 +109,9 @@ class UserUpdateView(UpdateView):
         self.object.last_name = user_data["last_name"]
         self.object.age = user_data["age"]
 
-        for location_name in user_data["locations"]:
+        for location_name in user_data["location"]:
             location, _ = Location.objects.get_or_create(name=location_name)
-            self.object.locations.add(location)
+            self.object.location.add(location)
 
         self.object.save()
 

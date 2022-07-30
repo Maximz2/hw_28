@@ -141,7 +141,7 @@ class AdDetailView(DetailView):
         return JsonResponse({
             "id": ad.id,
             "name": ad.name,
-            # "author_id": ad.author_id,
+            "author_id": ad.author_id,
             "author": ad.author.first_name,
             "price": ad.price,
             "description": ad.description,
