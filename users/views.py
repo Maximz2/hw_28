@@ -33,7 +33,7 @@ class UserView(ListView):
                 "user_name": user.user_name,
                 "role": user.role,
                 "age": user.age,
-                "locations": list(map(str, user.location.all())),
+                "locations": list(map(str, user.locations.all())),
                 "total_ads": len(self.object_list),
             })
 
@@ -58,7 +58,7 @@ class UserDetailView(DetailView):
              "user_name": user.user_name,
              "role": user.role,
              "age": user.age,
-             "locations": List(map(str, user.Location.all()))
+             "locations": List(map(str, user.Locations.all()))
         })
 
 
