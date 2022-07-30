@@ -23,7 +23,7 @@ class User(models.Model):
 
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    user_name = models.CharField(max_length=58)
+    username = models.CharField(max_length=58)
     password = models.CharField(max_length=50)
     role = models.CharField(max_length=50, choices=ROLES, default="member")
     age = models.PositiveIntegerField()
@@ -32,7 +32,7 @@ class User(models.Model):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
-        ordering = ["user_name"]
+        ordering = ["username"]
 
     def __str__(self):
         return self.name

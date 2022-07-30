@@ -30,7 +30,7 @@ class UserView(ListView):
                 "id": user.id,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                "user_name": user.user_name,
+                "username": user.username,
                 "role": user.role,
                 "age": user.age,
                 "locations": list(map(str, user.locations.all())),
@@ -55,7 +55,7 @@ class UserDetailView(DetailView):
              "id": user.id,
              "first_name": user.first_name,
              "last_name": user.last_name,
-             "user_name": user.user_name,
+             "username": user.username,
              "role": user.role,
              "age": user.age,
              "locations": List(map(str, user.Locations.all()))
@@ -65,13 +65,13 @@ class UserDetailView(DetailView):
 @method_decorator(csrf_exempt, name='dispatch')
 class UserCreateView(CreateView):
     model = User
-    fields = ["user_name", "password", "first_name", "last_name", "role", "age", "locations"]
+    fields = ["username", "password", "first_name", "last_name", "role", "age", "locations"]
 
     def post(self, request, *args, **kwargs):
         user_data = json.loads(request.body)
 
         user = User.objects.create(
-             user_name=user_data["user_name"],
+             username=user_data["username"],
              password=user_data["password"],
              first_name=user_data["first_name"],
              last_name=user_data["last_name"],
@@ -79,7 +79,7 @@ class UserCreateView(CreateView):
              age=user_data["age"],
         )
 
-        for location_name in user_data["location"]:
+        for location_name in user_data["locations"]:
             location, _ = Location.objects.get_or_create(name=location_name)
             user.locations.add(location)
 
@@ -87,7 +87,7 @@ class UserCreateView(CreateView):
              "id": user.id,
              "first_name": user.first_name,
              "last_name": user.last_name,
-             "user_name": user.user_name,
+             "username": user.username,
              "role": user.role,
              "age": user.age,
              "locations": list(map(str, user.locations.all())),
@@ -97,13 +97,13 @@ class UserCreateView(CreateView):
 @method_decorator(csrf_exempt, name='dispatch')
 class UserUpdateView(UpdateView):
     model = User
-    fields = ["user_name", "password", "first_name", "last_name", "role", "age", "locations"]
+    fields = ["username", "password", "first_name", "last_name", "role", "age", "locations"]
 
     def patch(self, request, *args, **kwargs):
         super().post(request, *args, **kwargs)
 
         user_data = json.loads(request.body)
-        self.object.user_name = user_data["user_name"]
+        self.object.username = user_data["username"]
         self.object.password = user_data["password"]
         self.object.first_name = user_data["first_name"]
         self.object.last_name = user_data["last_name"]
@@ -119,7 +119,7 @@ class UserUpdateView(UpdateView):
             "id": self.object.user.id,
             "first_name": self.object.first_name,
             "last_name": self.object.last_name,
-            "user_name": self.object.user_name,
+            "username": self.object.username,
             "role": self.object.role,
             "age": self.object.age,
             "locations": list(map(str, self.object.locations.all())),
