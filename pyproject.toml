@@ -8,6 +8,7 @@ authors = ["Maxim <99118327+Maximz2@users.noreply.github.com>"]
 python = "^3.10"
 Django = "^4.0.6"
 psycopg2 = "^2.9.3"
+djangorestframework = "^3.13.1"
 
 [tool.poetry.dev-dependencies]
 
