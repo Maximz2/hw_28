@@ -1,8 +1,9 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class Location(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     lat = models.DecimalField(max_digits=8, decimal_places=6, null=True)
     ing = models.DecimalField(max_digits=8, decimal_places=6, null=True)
 
@@ -14,19 +15,19 @@ class Location(models.Model):
         return self.name
 
 
-class User(models.Model):
+class User(AbstractUser):
+    USER = "user"
+    MODERATOR = "moderator"
+    ADMIN = "admin"
+
     ROLES = [
-        ("member", "Пользователь"),
-        ("moderator", "Mодератор"),
-        ("admin", "Aдмин"),
+        (USER, USER),
+        (MODERATOR, MODERATOR),
+        (ADMIN, ADMIN),
     ]
 
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    username = models.CharField(max_length=58)
-    password = models.CharField(max_length=50)
-    role = models.CharField(max_length=50, choices=ROLES, default="member")
-    age = models.PositiveIntegerField()
+    role = models.CharField(max_length=50, choices=ROLES, default=USER)
+    age = models.PositiveSmallIntegerField(null=True)
     locations = models.ManyToManyField(Location)
 
     class Meta:
@@ -35,4 +36,4 @@ class User(models.Model):
         ordering = ["username"]
 
     def __str__(self):
-        return self.name
+        return self.username

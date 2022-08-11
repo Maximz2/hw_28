@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 
@@ -20,22 +21,25 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-
-from hw_28 import settings
-
+from ads.views import CategoryViewSet
 from users.views import LocationViewSet
 
-router = routers.SimpleRouter()
-router.register('loc', LocationViewSet)
+location_router = routers.SimpleRouter()
+location_router.register('location', LocationViewSet)
+
+category_router = routers.SimpleRouter()
+category_router.register('category', CategoryViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('', include('ads.urls')),
+    path('ad/', include('ads.ad_urls')),
+    path('selection/', include('ads.selection_urls')),
     path('user/', include('users.urls')),
 ]
 
-urlpatterns += router.urls
+urlpatterns += location_router.urls
+urlpatterns += category_router.urls
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

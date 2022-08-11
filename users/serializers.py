@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserCreateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
     locations = serializers.SlugRelatedField(
-        required=False,
+        required=False  ,
         queryset=Location.objects.all(),
         many=True,
         slug_field="name"
@@ -34,7 +34,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         self._locations = self.initial_data.pop("locations")
         return super().is_valid(raise_exception=raise_exception)
 
-    def create(self,    validated_data):
+    def create(self, validated_data):
         user = User.objects.create(**validated_data)
 
         for location in self._locations:
@@ -46,7 +46,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ['password']
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
