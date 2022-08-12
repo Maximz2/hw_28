@@ -25,12 +25,9 @@ class AdSerializer(serializers.ModelSerializer):
 
 
 class AdCreateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Ad
         fields = '__all__'
-
-
 
 
 class SelectionListSerializer(serializers.ModelSerializer):
