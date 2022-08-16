@@ -1,6 +1,12 @@
+from datetime import date
+
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 
+from users.validators import AgeCheckValidator, CheckEmail
+
+MIN_AGE = 9
 
 class Location(models.Model):
     name = models.CharField(max_length=200, unique=True)
@@ -29,6 +35,8 @@ class User(AbstractUser):
     role = models.CharField(max_length=50, choices=ROLES, default=USER)
     age = models.PositiveSmallIntegerField(null=True)
     locations = models.ManyToManyField(Location)
+    birth_date = models.DateField(null=True, validators=[AgeCheckValidator])
+    email = models.EmailField(unique=True, null=True, validators=[CheckEmail])
 
     class Meta:
         verbose_name = "Пользователь"
